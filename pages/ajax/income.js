@@ -2,6 +2,15 @@ $(document).ready(function () {
   var year = $("#year").val()
  console.log(year);
   ShowAllTitle(year);
+
+  $("#btnChangeYear").click(function (e) { 
+    e.preventDefault();
+    let year = $("#inputYear").val()
+    let status = Number(year) ? true : false
+    console.log(status);
+    (year.length == 4 && status) ? window.location.href="income?year="+year: false;
+  });
+
   $("#openModal").click(function (e) {
     e.preventDefault();
     $("#formAddTitle")[0].reset();

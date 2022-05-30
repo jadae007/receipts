@@ -12,7 +12,7 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="overview-income">ตารางรายรับ</a></li>
-            <li><a class="dropdown-item" href="income">จัดการรายรับ</a></li>
+            <!-- <li><a class="dropdown-item" href="income">จัดการรายรับ</a></li> -->
           </ul>
         </li>
         <li class="nav-item dropdown">

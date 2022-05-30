@@ -12,8 +12,19 @@
 <body>
   <?php require_once('components/navbar.php'); ?>
   <div class="container">
-    <div class="row mt-5">
-      <input type="hidden" name="year" id="year" value="<?php  echo ($_GET['year']) ? $_GET['year'] : date("Y")+543;  ?>">
+    <input type="hidden" name="year" id="year" value="<?php  echo ($_GET['year']) ? $_GET['year'] : date("Y")+543;  ?>">
+    <div class="row mt-4">
+      <div class="col-4">
+        </div>  
+        <div class="col-3">
+        <div class="input-group mb-3">
+    <input type="text" class="form-control" id="inputYear" value="<?php echo ($_GET['year']) ? $_GET['year'] : date("Y")+543; ?>" aria-describedby="button-addon2">
+    <button class="btn btn-outline-secondary" type="button" id="btnChangeYear">เปลี่ยนปี</button>
+  </div>
+
+</div>
+    </div>
+    <div class="row mt-3">
       <div class="col">
         <button type="button" class="btn btn-success" id="openModal" data-bs-toggle="modal" data-bs-target="#addTitle">
           เพิ่มรายการ
