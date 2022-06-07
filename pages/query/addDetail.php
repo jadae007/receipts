@@ -51,14 +51,12 @@ VALUES (
     '$detailAmountMonth9'
 )";
 
-echo $sql ;
+if(mysqli_query($conn,$sql)){
+  echo json_encode(array("status"=>"true","message"=>"เพิ่มรายการเรียบร้อยแล้ว"),JSON_UNESCAPED_UNICODE);
+}else{
+  echo json_encode(array("status"=>"false","message"=>mysqli_error($conn)),JSON_UNESCAPED_UNICODE);
+}
 
-// if(mysqli_query($conn,$sql)){
-//   echo json_encode(array("status"=>"true","message"=>"เพิ่มรายการเรียบร้อยแล้ว"),JSON_UNESCAPED_UNICODE);
-// }else{
-//   echo json_encode(array("status"=>"false","message"=>mysqli_error($conn)),JSON_UNESCAPED_UNICODE);
-// }
-
-// mysqli_close($conn);
+mysqli_close($conn);
 
 ?>

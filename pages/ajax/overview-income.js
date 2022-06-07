@@ -5,8 +5,7 @@ $(document).ready(function () {
   $("#btnChangeYear").click(function (e) { 
     e.preventDefault();
     let year = $("#inputYear").val()
-    let status = Number(year) ? true : false
-    console.log(status);
+    let status = Number(year) ? true : false;
     (year.length == 4 && status) ? window.location.href="overview-income?year="+year: false;
   });
 
@@ -37,7 +36,7 @@ $(document).ready(function () {
             useTransparency: true,
             onOk :()=>{
               $("#addTitle").modal("hide")
-              showAllIncome();
+              showAllIncome(year);
             }
           });
         }else{
@@ -74,7 +73,7 @@ $(document).ready(function () {
             useTransparency: true,
             onOk :()=>{
               $("#addListModal").modal("hide")
-              showAllIncome();
+              showAllIncome(year);
             }
           });
         }else{
@@ -111,7 +110,7 @@ $(document).ready(function () {
             useTransparency: true,
             onOk :()=>{
               $("#detailModal").modal("hide")
-              showAllIncome();
+              showAllIncome(year);
             }
           });
         }else{
@@ -141,10 +140,14 @@ const showAllIncome = (year) => {
       const { allIncomeObj } = JSON.parse(response);
       let html = "";
       let titleId =0
+      let title_id =0
+      let nowList_Id = 0
       if(allIncomeObj){
-        $("#tbody").children().remove
+        console.log(allIncomeObj);
+        $("#tbody").children().remove()
         let no = Number(allIncomeObj[0].no);
       allIncomeObj.forEach((element,index) => {
+        console.log(element.title_id);
         if (no == element.no) {
           html += "<tr>";
           html += `<td class="text-white">${++index}</td>`;
@@ -168,8 +171,9 @@ const showAllIncome = (year) => {
           html += `<td><button type="button" class="btn btn-outline-success" onclick="addList(${element.title_id},'${element.titleName}')">+</button></td>`
           html += `</tr>`;
           no = no +1;
+          title_id = element.title_id
         }
-        if(element.titleId != null && element.titleId != titleId){
+        if(element.titleId != null && element.titleId == title_id && nowList_Id != element.list_id){
           html += "<tr>";
           html += `<td class="text-white">${++index}</td>`;
           html +=  "<td></td>"
@@ -191,7 +195,7 @@ const showAllIncome = (year) => {
           html += `<td></td>`
           html += `<td><button type="button" class="btn btn-outline-warning" onclick="addDetail(${element.list_id},'${element.detailName}')">+</button></td>`
           html += "</tr>";
-          titleId = element.titleId
+          nowList_Id = element.list_id
         }
           if(element.listId != null){
             html += "<tr>";
