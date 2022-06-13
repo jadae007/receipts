@@ -127,9 +127,8 @@ $(document).ready(function () {
   });
 });
 
-
-
 const showAllIncome = (year) => {
+  console.log("showAllIncome");
   $.ajax({
     type: "get",
     url: "query/showAllIncome",
@@ -142,9 +141,9 @@ const showAllIncome = (year) => {
       let titleId =0
       let title_id =0
       let nowList_Id = 0
+      $("#tbody").children().remove()
       if(allIncomeObj){
         console.log(allIncomeObj);
-        $("#tbody").children().remove()
         let no = Number(allIncomeObj[0].no);
       allIncomeObj.forEach((element,index) => {
         console.log(element.title_id);
@@ -168,7 +167,11 @@ const showAllIncome = (year) => {
           html += `<td></td>`
           html += `<td></td>`
           html += `<td></td>`
-          html += `<td><button type="button" class="btn btn-outline-success" onclick="addList(${element.title_id},'${element.titleName}')">+</button></td>`
+          html += `<td>
+            <button type="button" class="btn btn-outline-success" onclick="addList(${element.title_id},'${element.titleName}')">เพิ่ม</button>
+            <button type="button" class="btn btn-outline-success" onclick="addList(${element.title_id},'${element.titleName}')">แก้ไข</button>
+            <button type="button" class="btn btn-outline-success" onclick="handleDelete(${element.title_id},'title')">ลบ</button>
+          </td>`
           html += `</tr>`;
           no = no +1;
           title_id = element.title_id
@@ -193,7 +196,7 @@ const showAllIncome = (year) => {
           html += `<td>${element.listAmountMonth9 && element.listAmountMonth9 != '0.00' ? element.listAmountMonth9 : ""}</td>`
           html += `<td></td>`
           html += `<td></td>`
-          html += `<td><button type="button" class="btn btn-outline-warning" onclick="addDetail(${element.list_id},'${element.detailName}')">+</button></td>`
+          html += `<td><button type="button" class="btn btn-outline-warning" onclick="addDetail(${element.list_id},'${element.detailName}')">เพิ่ม</button></td>`
           html += "</tr>";
           nowList_Id = element.list_id
         }
@@ -234,6 +237,54 @@ const showAllIncome = (year) => {
     },
   });
 };
+
+const handleDelete = (id,params) =>{
+  SoloAlert.confirm({
+    title:"Are you sure??",
+    body: "หากคุณลบรายการนี้ รายการย่อยของรายการที่เลือกจะถูกลบด้วย แน่ใจหรือไม่",
+    icon: "wanring",
+    useTransparency: true,
+    onOk :()=>{
+      if(params== "title"){
+        deleteTitle(id)
+      }
+      console.log("ID>>>>",id,"params>>>",params);
+    },
+  });
+}
+
+const deleteTitle = (id) =>{
+  $.ajax({
+    type: "POST",
+    url: "query/deleteTitle",
+    data: {
+      id,
+    },
+    success: function (response) {
+      let year = $("#year").val()
+      const { status, message } = JSON.parse(response)
+      if(status=="true"){
+        SoloAlert.alert({
+          title:"Success!!",
+          body: message,
+          icon: "success",
+          useTransparency: true,
+          onOk :()=>{
+            showAllIncome(year)
+          }
+        });
+      }else{
+        SoloAlert.alert({
+          title:"Failed!!",
+          body: message,
+          icon: "error",
+          useTransparency: true,
+        });
+      }
+    }
+  });
+}
+
 
 const addList = (titleId,titleName) =>{
   $("#formAddList")[0].reset()
